@@ -1,0 +1,282 @@
+[
+ {
+  "task_id": 511,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef find_Min_Sum(n):\n    # Initialize min_sum to infinity\n    min_sum = float('inf')\n    \n    # Iterate through all possible divisors from 1 to n\n    for i in range(1, n+1):\n        # If i is a divisor of n, calculate the sum of its factors\n        if n % i == 0:\n            factor_sum = sum([j for j in range(1, i+1)])\n            # Update min_sum if the current factor_sum is smaller\n            if factor_sum < min_sum:\n                min_sum = factor_sum\n                \n    return min_sum\n```"
+ },
+ {
+  "task_id": 512,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef count_element_freq(mixed_tuple):\n    freq_dict = {}\n    for item in mixed_tuple:\n        if isinstance(item, tuple):\n            freq_dict.update(count_element_freq(item))\n        else:\n            freq_dict[item] = freq_dict.get(item, 0) + 1\n    return freq_dict\n```"
+ },
+ {
+  "task_id": 513,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef add_str(tup, str):\n    return [x+str for x in tup]\n```"
+ },
+ {
+  "task_id": 514,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef sum_elements(tup):\n    return sum(tup)\n```"
+ },
+ {
+  "task_id": 515,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef modular_sum(arr, n, m):\n    # Initialize a boolean array to store whether a sum divisible by m can be formed\n    dp = [False] * (m + 1)\n    dp[0] = True  # Base case: zero sum is always possible\n    \n    # Iterate through each element in the array\n    for i in range(n):\n        # Update the dp array from back to front to avoid using the same element multiple times\n        for j in range(m, arr[i] - 1, -1):\n            dp[j] |= dp[j - arr[i]]\n    \n    return dp[m]\n```"
+ },
+ {
+  "task_id": 516,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef radix_sort(arr):\n    RADIX = 10\n    placement = 1\n    max_digit = max(arr)\n\n    while placement <= max_digit:\n        # Initialize buckets\n        buckets = [[] for _ in range(RADIX)]\n\n        # Distribute input array into buckets\n        for i in arr:\n            digit = (i // placement) % RADIX\n            buckets[digit].append(i)\n\n        # Collect the numbers from the buckets\n        index = 0\n        for bucket in buckets:\n            for number in bucket:\n                arr[index] = number\n                index += 1\n\n        # Move to next digit\n        placement *= RADIX\n    return arr\n```"
+ },
+ {
+  "task_id": 517,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef largest_pos(lst):\n    return max(x for x in lst if x > 0)\n```"
+ },
+ {
+  "task_id": 518,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\nimport math\n\ndef sqrt_root(n):\n    return int(math.sqrt(n))\n```"
+ },
+ {
+  "task_id": 519,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef volume_tetrahedron(side_length):\n    return (side_length ** 3) / (6 * 3**0.5)\n```"
+ },
+ {
+  "task_id": 520,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\nfrom math import gcd\n\ndef get_lcm(arr):\n    # Initialize the result with the first element of the array\n    result = arr[0]\n    \n    # Iterate through each element in the array\n    for num in arr[1:]:\n        # Update the result using the formula: lcm(a, b) = abs(a*b) // gcd(a, b)\n        result = abs(result * num) // gcd(result, num)\n    \n    return result\n```"
+ },
+ {
+  "task_id": 521,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef check_isosceles(a, b, c):\n    return a == b or a == c or b == c\n```"
+ },
+ {
+  "task_id": 522,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef lbs(arr):\n    n = len(arr)\n    # Initialize dp arrays\n    inc = [1] * n\n    dec = [1] * n\n    \n    # Fill up the inc array\n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] > arr[j]:\n                inc[i] = max(inc[i], inc[j] + 1)\n    \n    # Fill up the dec array\n    for i in range(n-2, -1, -1):\n        for j in range(i+1, n):\n            if arr[i] > arr[j]:\n                dec[i] = max(dec[i], dec[j] + 1)\n    \n    # Find the maximum length of the bitonic subsequence\n    max_length = 0\n    for i in range(n):\n        max_length = max(max_length, inc[i] + dec[i] - 1)\n    \n    return max_length\n```"
+ },
+ {
+  "task_id": 523,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef check_string(s):\n    return [\n        'String must have 1 upper case character.' if not any(c.isupper() for c in s) else '',\n        'String must have 1 number.' if not any(c.isdigit() for c in s) else '',\n        'String length should be atleast 8.' if len(s) < 8 else ''\n    ]\n```"
+ },
+ {
+  "task_id": 524,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef max_sum_increasing_subsequence(arr, n):\n    dp = [arr[i] for i in range(n)]\n    for i in range(1, n):\n        for j in range(i):\n            if arr[j] < arr[i]:\n                dp[i] = max(dp[i], dp[j] + arr[i])\n    return max(dp)\n```"
+ },
+ {
+  "task_id": 525,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef parallel_lines(line1, line2):\n    return line1[0] / line1[1] == line2[0] / line2[1]\n```"
+ },
+ {
+  "task_id": 526,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef capitalize_first_last_letters(s):\n    return ' '.join(word.capitalize() for word in s.split())\n```"
+ },
+ {
+  "task_id": 527,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef get_pairs_count(arr, target_sum, count):\n    arr.sort()  # Sort the array to make it easier to find pairs\n    left, right = 0, len(arr) - 1\n    \n    while left < right:\n        current_sum = arr[left] + arr[right]\n        \n        if current_sum == target_sum:\n            count += 1\n            left += 1\n            right -= 1\n        elif current_sum < target_sum:\n            left += 1\n        else:\n            right -= 1\n            \n    return count\n```"
+ },
+ {
+  "task_id": 528,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef min_length(lst):\n    return min((len(sublist), sublist) for sublist in lst)\n```"
+ },
+ {
+  "task_id": 529,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef jacobsthal_lucas(n):\n    # Base cases for the first two Jacobsthal-Lucas numbers\n    if n == 0:\n        return 2\n    elif n == 1:\n        return 1\n    \n    # Initialize the first two Jacobsthal-Lucas numbers\n    a, b = 2, 1\n    \n    # Calculate the nth Jacobsthal-Lucas number using a loop\n    for _ in range(2, n + 1):\n        a, b = b, a + b\n    \n    return b\n```"
+ },
+ {
+  "task_id": 530,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef negative_count(arr):\n    return sum(1 for num in arr if num < 0) / len(arr)\n```"
+ },
+ {
+  "task_id": 531,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef min_coins(coins, amount, target):\n    dp = [float('inf')] * (target + 1)\n    dp[0] = 0\n    \n    for coin in coins:\n        for i in range(coin, target + 1):\n            dp[i] = min(dp[i], dp[i - coin] + 1)\n    \n    return dp[target]\n```"
+ },
+ {
+  "task_id": 532,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef check_permutation(str1, str2):\n    return sorted(str1) == sorted(str2)\n```"
+ },
+ {
+  "task_id": 533,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef remove_datatype(data_tuple, datatype):\n    return tuple(item for item in data_tuple if not isinstance(item, datatype))\n```"
+ },
+ {
+  "task_id": 534,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef search_literal(pattern, text):\n    return text.find(pattern), len(pattern)\n```"
+ },
+ {
+  "task_id": 535,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\nimport math\n\ndef topbottom_surfacearea(radius):\n    return 2 * math.pi * radius ** 2\n```"
+ },
+ {
+  "task_id": 536,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef nth_items(lst, n):\n    return lst[n-1::n]\n```"
+ },
+ {
+  "task_id": 537,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef first_repeated_word(s):\n    words = s.split()\n    seen = set()\n    for word in words:\n        if word in seen:\n            return word\n        seen.add(word)\n    return None\n```"
+ },
+ {
+  "task_id": 538,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef string_list_to_tuple(string_list):\n    return tuple(string_list)\n```"
+ },
+ {
+  "task_id": 539,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef basesnum_coresspondingnum(bases, numbers):\n    return list(map(lambda x: x**y for x, y in zip(bases, numbers)))\n```"
+ },
+ {
+  "task_id": 540,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef find_Diff(arr,n):\n    freq = [0]*n\n    for i in range(n):\n        freq[arr[i]] += 1\n    max_freq = max(freq)\n    min_freq = min(freq)\n    return max_freq - min_freq\n```"
+ },
+ {
+  "task_id": 541,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef check_abundant(n):\n    divisors_sum = sum([i for i in range(1, n) if n % i == 0])\n    return divisors_sum > n\n```"
+ },
+ {
+  "task_id": 542,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\nimport re\n\ndef fill_spaces(text):\n    # Use regex to replace spaces, commas, and dots with a colon\n    return re.sub(r'[ ,\\.]', ':', text)\n```"
+ },
+ {
+  "task_id": 543,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef count_digits(num1, num2):\n    total = num1 + num2\n    return len(str(total))\n```"
+ },
+ {
+  "task_id": 544,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef flatten_tuple(tup_list):\n    return ' '.join(''.join(item) for item in tup_list)\n```"
+ },
+ {
+  "task_id": 545,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef toggle_F_and_L_bits(n):\n    # Toggle the first bit by XORing n with 1\n    first_bit_toggle = n ^ 1\n    # Toggle the last bit by XORing n with 2^31 (which is -1 in two's complement)\n    last_bit_toggle = n ^ (-1 << 31)\n    # Combine both toggles\n    result = first_bit_toggle | last_bit_toggle\n    return result\n```"
+ },
+ {
+  "task_id": 546,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef last_occurrence_char(s, c):\n    return s.rfind(c)\n```"
+ },
+ {
+  "task_id": 547,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef Total_Hamming_Distance(n):\n    return sum([sum([1 for i in range(32) if (n >> i) & 1 != (i % 2)]) for i in range(n+1)])\n```"
+ },
+ {
+  "task_id": 548,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef longest_increasing_subsequence(sequence):\n    if not sequence:\n        return 0\n    \n    # Initialize the dp array where dp[i] represents the length of the longest increasing subsequence ending at index i\n    dp = [1] * len(sequence)\n    \n    # Fill the dp array\n    for i in range(1, len(sequence)):\n        for j in range(i):\n            if sequence[j] < sequence[i]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    \n    # The maximum value in dp will be the length of the longest increasing subsequence\n    return max(dp)\n```"
+ },
+ {
+  "task_id": 549,
+  "passed": true,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef odd_Num_Sum(n):\n    return sum([i**5 for i in range(1, 2*n, 2)])\n```"
+ },
+ {
+  "task_id": 550,
+  "passed": false,
+  "n_examples": 0,
+  "retrieved": [],
+  "raw_output": "```python\ndef find_Max(arr, low, high):\n    if low > high:\n        return -1\n    mid = (low + high) // 2\n    if arr[mid] > arr[high]:\n        return find_Max(arr, mid+1, high)\n    else:\n        return find_Max(arr, low, mid-1)\n```"
+ }
+]

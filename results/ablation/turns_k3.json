@@ -1,0 +1,442 @@
+[
+ {
+  "task_id": 511,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/853",
+   "mbpp/970",
+   "mbpp/798"
+  ],
+  "raw_output": "```python\ndef find_Min_Sum(n): \r\n    res = 1\r\n    while n % 2 == 0: \r\n        n = n // 2 \r\n    for i in range(3,int(math.sqrt(n) + 1)): \r\n        count = 0\r\n        curr_sum = 1\r\n        curr_term = 1\r\n        while n % i == 0: \r\n            count+=1 \r\n            n = n // i \r\n            curr_term *= i \r\n            curr_sum += curr_term    \r\n        res *= curr_sum  \r\n    if n >= 2: \r\n        res *= (1 + n) \r\n    return res\n```"
+ },
+ {
+  "task_id": 512,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/686",
+   "mbpp/941",
+   "mbpp/819"
+  ],
+  "raw_output": "```python\ndef count_element_freq(tup):\r\n    dict1 = {}\r\n    for i in tup:\r\n        if type(i) == tuple:\r\n            for j in i:\r\n                if j in dict1:\r\n                    dict1[j] += 1\r\n                else:\r\n                    dict1[j] = 1\r\n        else:\r\n            if i in dict1:\r\n                dict1[i] += 1\r\n            else:\r\n                dict1[i] = 1\r\n    return dict1\n```"
+ },
+ {
+  "task_id": 513,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/788",
+   "mbpp/750",
+   "mbpp/708"
+  ],
+  "raw_output": "```python\ndef add_str(test_tup, test_str):\r\n  res = []\r\n  for i in test_tup:\r\n    res.append(i)\r\n    res.append(test_str)\r\n  return (res)\n```"
+ },
+ {
+  "task_id": 514,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/780",
+   "mbpp/614",
+   "mbpp/750"
+  ],
+  "raw_output": "```python\ndef sum_elements(test_list):\r\n  res = sum(test_list)\r\n  return (res)\n```"
+ },
+ {
+  "task_id": 515,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/620",
+   "mbpp/817",
+   "mbpp/883"
+  ],
+  "raw_output": "```python\ndef modular_sum(arr, m, n): \n    # Initialize a boolean array to store results of subproblems \n    dp = [[False for _ in range(n+1)] for _ in range(m+1)] \n  \n    # If sum is zero, then answer is true \n    for i in range(m+1): \n        dp[i][0] = True\n  \n    # Fill the table in bottom up manner \n    for i in range(1, m+1): \n        for j in range(1, n+1): \n            if arr[j-1] <= i: \n                dp[i][j] = dp[i][j-i] or dp[i-arr[j-1]][j] \n            else: \n                dp[i][j] = dp[i][j-1] \n  \n    return dp[m][n]\n```"
+ },
+ {
+  "task_id": 516,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/705",
+   "mbpp/662",
+   "mbpp/939"
+  ],
+  "raw_output": "```python\ndef radix_sort(arr):\r\n    RADIX = 10\r\n    placement = 1\r\n    max_digit = max(arr)\r\n    \r\n    while placement <= max_digit:\r\n        # declare empty buckets\r\n        buckets = [[] for _ in range(RADIX)]\r\n        \r\n        # place each number in the correct bucket\r\n        for i in arr:\r\n            digit = (i // placement) % RADIX\r\n            buckets[digit].append(i)\r\n        \r\n        # flatten the buckets into a single array\r\n        arr = []\r\n        for bucket in buckets:\r\n            arr.extend(bucket)\r\n            \r\n        # move to the next digit\r\n        placement *= RADIX\r\n    return arr\n```"
+ },
+ {
+  "task_id": 517,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/658",
+   "mbpp/805",
+   "mbpp/613"
+  ],
+  "raw_output": "```python\ndef largest_pos(lst):\r\n    return max(x for x in lst if x > 0)\n```"
+ },
+ {
+  "task_id": 518,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/803",
+   "mbpp/880",
+   "mbpp/926"
+  ],
+  "raw_output": "```python\nimport math\ndef sqrt_root(num):\n    return int(math.sqrt(num))\n```"
+ },
+ {
+  "task_id": 519,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/742",
+   "mbpp/738",
+   "mbpp/789"
+  ],
+  "raw_output": "```python\nimport math\ndef volume_tetrahedron(side):\n  volume = (math.sqrt(2)/12)*side**3\n  return volume\n```"
+ },
+ {
+  "task_id": 520,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/876",
+   "mbpp/686",
+   "mbpp/946"
+  ],
+  "raw_output": "```python\ndef get_lcm(arr):\n  lcm = arr[0]\n  for i in range(1,len(arr)):\n      lcm = lcm * arr[i] // gcd(lcm,arr[i])\n  return lcm\n```"
+ },
+ {
+  "task_id": 521,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/677",
+   "mbpp/850",
+   "mbpp/626"
+  ],
+  "raw_output": "```python\ndef check_isosceles(a,b,c):\r\n    if a==b or b==c or a==c:\r\n        return True\r\n    else:\r\n        return False\n```"
+ },
+ {
+  "task_id": 522,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/863",
+   "mbpp/747",
+   "mbpp/895"
+  ],
+  "raw_output": "```python\ndef lbs(arr):\n    n = len(arr)\n    up = [1] * n\n    down = [1] * n\n    for i in range(1, n):\n        for j in range(i):\n            if arr[i] > arr[j]:\n                up[i] = max(up[i], up[j] + 1)\n    for i in range(n - 2, -1, -1):\n        for j in range(i + 1, n):\n            if arr[i] > arr[j]:\n                down[i] = max(down[i], down[j] + 1)\n    max_length = 0\n    for i in range(n):\n        max_length = max(max_length, up[i] + down[i] - 1)\n    return max_length\n```"
+ },
+ {
+  "task_id": 523,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/818",
+   "mbpp/813",
+   "mbpp/917"
+  ],
+  "raw_output": "```python\ncheck_string=lambda x: ['String must have 1 upper case character.', 'String must have 1 number.', 'String length should be atleast 8.'] if not any(c.isupper() for c in x) or not any(c.isdigit() for c in x) or len(x)<8 else ['Valid string.'] if all(c.isalpha() for c in x) else ['String must have 1 upper case character.', 'String must have 1 number.'] if not any(c.islower() for c in x) else ['String must have 1 lower case character.'] if not any(c.isdigit() for c in x) else ['String must have 1 upper case character.', 'String must have 1 number.', 'String length should be atleast 8.'] if not any(c.islower() for c in x) else ['String must have 1 lower case character.'] if not any(c.isdigit() for c in x) else ['String must have 1 upper case character.', 'String must have 1 number.', 'String length should be atleast 8.'] if not any(c.islower() for c in x) else ['String must have 1 lower case character.'] if not any(c.isdigit() for c in x) else ['String must have 1 upper case character.', 'String must have 1 number.', 'String length should be atleast 8.'] if not any(c.islower() for c in x) else ['String must have 1 lower case character.'] if not any(c.isdigit() for c in x) else ['String must have 1 upper case character.', 'String must have 1 number.', 'String length should be atleast 8.'] if not any(c.islower() for c in x) else ['String must have 1 lower case character.'] if not any(c.isdigit() for c in x) else ['String must"
+ },
+ {
+  "task_id": 524,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/895",
+   "mbpp/836",
+   "mbpp/661"
+  ],
+  "raw_output": "```python\ndef max_sum_increasing_subsequence(arr, n): \n\tdp = [0]*n \n\tfor i in range(n): \n\t\tdp[i] = arr[i] \n\tfor i in range(1,n): \n\t\tfor j in range(i): \n\t\t\tif arr[j]<arr[i]: \n\t\t\t\tdp[i] = max(dp[i], dp[j]+arr[i]) \n\treturn max(dp)\n```"
+ },
+ {
+  "task_id": 525,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/811",
+   "mbpp/650",
+   "mbpp/891"
+  ],
+  "raw_output": "```python\ndef parallel_lines(line1, line2):\r\n    x1, y1, z1 = line1\r\n    x2, y2, z2 = line2\r\n\r\n    # Check if the direction vectors are proportional\r\n    if (x2 - x1) * (y2 - y1) == (z2 - z1) * (x2 - x1):\r\n        return True\r\n    else:\r\n        return False\n```"
+ },
+ {
+  "task_id": 526,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/748",
+   "mbpp/868",
+   "mbpp/625"
+  ],
+  "raw_output": "```python\ndef capitalize_first_last_letters(s): \n    return s.title()\n```"
+ },
+ {
+  "task_id": 527,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/767",
+   "mbpp/633",
+   "mbpp/831"
+  ],
+  "raw_output": "```python\ndef get_pairs_count(arr,n,sum):\r\n    count = 0  \r\n    for i in range(0,n):\r\n        for j in range(i + 1,n):\r\n            if arr[i] + arr[j] == sum:\r\n                count += 1\r\n    return count\n```"
+ },
+ {
+  "task_id": 528,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/947",
+   "mbpp/705",
+   "mbpp/755"
+  ],
+  "raw_output": "```python\ndef min_length(list1):\r\n  min_len = float('inf')\r\n  min_list = []\r\n  for sublist in list1:\r\n    if len(sublist) < min_len:\r\n      min_len = len(sublist)\r\n      min_list = sublist\r\n  return min_len, min_list\n```"
+ },
+ {
+  "task_id": 529,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/752",
+   "mbpp/641",
+   "mbpp/934"
+  ],
+  "raw_output": "```python\ndef jacobsthal_lucas(n): \n    if (n % 2 == 0): \n        return jacobsthal_num(n // 2) \n    else: \n        return 2 * jacobsthal_num((n - 1) // 2) + jacobsthal_num((n - 2) // 2)\n```"
+ },
+ {
+  "task_id": 530,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/915",
+   "mbpp/852",
+   "mbpp/701"
+  ],
+  "raw_output": "```python\ndef negative_count(arr):\r\n  count = 0\r\n  for num in arr:\r\n    if num < 0:\r\n      count += 1\r\n  return count / len(arr)\n```"
+ },
+ {
+  "task_id": 531,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/970",
+   "mbpp/609",
+   "mbpp/901"
+  ],
+  "raw_output": "```python\ndef min_coins(coins, amount, n):\r\n    dp = [float('inf')] * (amount + 1)\r\n    dp[0] = 0\r\n    for i in range(1, amount + 1):\r\n        for coin in coins:\r\n            if coin <= i:\r\n                dp[i] = min(dp[i], dp[i - coin] + 1)\r\n    return dp[amount]\n```"
+ },
+ {
+  "task_id": 532,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/885",
+   "mbpp/874",
+   "mbpp/871"
+  ],
+  "raw_output": "```python\ndef check_permutation(str1,str2):\r\n    if len(str1) != len(str2):\r\n        return False\r\n    count1 = {}\r\n    count2 = {}\r\n    for char in str1:\r\n        count1[char] = count1.get(char,0)+1\r\n    for char in str2:\r\n        count2[char] = count2.get(char,0)+1\r\n    return count1 == count2\n```"
+ },
+ {
+  "task_id": 533,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/791",
+   "mbpp/642",
+   "mbpp/966"
+  ],
+  "raw_output": "```python\ndef remove_datatype(test_tuple, datatype):\r\n  res = tuple(item for item in test_tuple if not isinstance(item, datatype))\r\n  return (res)\n```"
+ },
+ {
+  "task_id": 534,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/607",
+   "mbpp/773",
+   "mbpp/813"
+  ],
+  "raw_output": "```python\nimport re\ndef search_literal(text, pattern):\n  match = re.search(pattern, text)\n  if match:\n    s = match.start()\n    e = match.end()\n    return (match.re.pattern, s, e)\n  else:\n    return None\n```"
+ },
+ {
+  "task_id": 535,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/848",
+   "mbpp/746",
+   "mbpp/814"
+  ],
+  "raw_output": "```python\nimport math\n\ndef topbottom_surfacearea(radius):\n    return 2*math.pi*radius**2\n```"
+ },
+ {
+  "task_id": 536,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/611",
+   "mbpp/641",
+   "mbpp/948"
+  ],
+  "raw_output": "```python\ndef nth_items(lst,n):\r\n  return lst[n-1:]\n```"
+ },
+ {
+  "task_id": 537,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/602",
+   "mbpp/684",
+   "mbpp/829"
+  ],
+  "raw_output": "```python\ndef first_repeated_word(s):\n    words = s.split()\n    seen = set()\n    for word in words:\n        if word in seen:\n            return word\n        seen.add(word)\n    return None\n```"
+ },
+ {
+  "task_id": 538,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/788",
+   "mbpp/715",
+   "mbpp/708"
+  ],
+  "raw_output": "```python\ndef string_list_to_tuple(test_list):\r\n  res = tuple(test_list)\r\n  return (res)"
+ },
+ {
+  "task_id": 539,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/623",
+   "mbpp/724",
+   "mbpp/729"
+  ],
+  "raw_output": "```python\ndef basesnum_coresspondingnum(bases,numbers):\r\n    return [pow(base,i) for i,base in zip(numbers,bases)]\n```"
+ },
+ {
+  "task_id": 540,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/763",
+   "mbpp/656",
+   "mbpp/769"
+  ],
+  "raw_output": "```python\ndef find_Diff(arr,n):\r\n    freq = [0]*n\r\n    for i in range(n):\r\n        freq[arr[i]] += 1\r\n    max_freq = max(freq)\r\n    min_freq = min(freq)\r\n    return max_freq-min_freq\n```"
+ },
+ {
+  "task_id": 541,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/955",
+   "mbpp/680",
+   "mbpp/670"
+  ],
+  "raw_output": "```python\ndef check_abundant(n):\n    fctrsum = sum([fctr for fctr in range(1, n) if n % fctr == 0])\n    return fctrsum > n\n```"
+ },
+ {
+  "task_id": 542,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/732",
+   "mbpp/693",
+   "mbpp/631"
+  ],
+  "raw_output": "```python\nimport re\ndef fill_spaces(text):\n  return (re.sub(\"[ ,.]\", \":\", text))\n```"
+ },
+ {
+  "task_id": 543,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/675",
+   "mbpp/728",
+   "mbpp/724"
+  ],
+  "raw_output": "```python\ndef count_digits(num,pow):\r\n    return len(str(num**pow))\n```"
+ },
+ {
+  "task_id": 544,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/652",
+   "mbpp/894",
+   "mbpp/788"
+  ],
+  "raw_output": "```python\ndef flatten_tuple(test_list):\n  res = ''.join(str(ele) for sub in test_list for ele in sub)\n  return (res)\n```"
+ },
+ {
+  "task_id": 545,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/735",
+   "mbpp/671",
+   "mbpp/665"
+  ],
+  "raw_output": "```python\ndef toggle_F_and_L_bits(n): \n    return (n ^ (n>>1)) ^ (n<<1)\n```"
+ },
+ {
+  "task_id": 546,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/666",
+   "mbpp/773",
+   "mbpp/868"
+  ],
+  "raw_output": "```python\ndef last_occurence_char(s,c):\r\n    index = -1\r\n    for i in range(len(s)):\r\n        if s[i]==c:\r\n            index=i\r\n    return index\n```"
+ },
+ {
+  "task_id": 547,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/685",
+   "mbpp/649",
+   "mbpp/798"
+  ],
+  "raw_output": "```python\ndef Total_Hamming_Distance(n): \n    total_distance = 0\n    for i in range(1, n+1):\n        total_distance += i*(n-i+1)\n    return total_distance\n```"
+ },
+ {
+  "task_id": 548,
+  "passed": true,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/863",
+   "mbpp/747",
+   "mbpp/923"
+  ],
+  "raw_output": "```python\ndef longest_increasing_subsequence(nums):\n    if not nums:\n        return 0\n    dp = [1] * len(nums)\n    for i in range(1, len(nums)):\n        for j in range(i):\n            if nums[i] > nums[j]:\n                dp[i] = max(dp[i], dp[j] + 1)\n    return max(dp)\n```"
+ },
+ {
+  "task_id": 549,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/655",
+   "mbpp/770",
+   "mbpp/837"
+  ],
+  "raw_output": "```python\ndef odd_Num_Sum(n) : \n    j = 0\n    sm = 0\n    for i in range(1,n + 1) : \n        j = (2*i-1) \n        sm = sm + (j*j*j*j)   \n    return sm\n```"
+ },
+ {
+  "task_id": 550,
+  "passed": false,
+  "n_examples": 3,
+  "retrieved": [
+   "mbpp/968",
+   "mbpp/802",
+   "mbpp/793"
+  ],
+  "raw_output": "```python\ndef find_Max(A,B,N):\n    x = min(B - 1,N)\n    return (A*x) // B\n```"
+ }
+]

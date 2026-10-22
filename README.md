@@ -1,157 +1,90 @@
-# AI-Powered Software Engineering Assistant
+# IIIT-H CodeGen — Group 14
 
-Three capabilities through **Checkpoint 2**:
+Two tasks, each with retrieval (RAG) and an agent loop:
 
-1. **Text → Python code** (MBPP, CodeGen-350M-multi, pass@1)
-2. **Code → Documentation** (CoDocBench, **ROUGE-L** primary)
-3. **Agentic self-correction** (generate → test → retry)
+1. **Text → Python code** (MBPP, metric: pass@1)
+2. **Python code → documentation** (CoDocBench, metric: ROUGE-L)
 
-**Out of scope until CP3:** VS Code extension, RAG, SQL generation.
+Baseline: CodeGen-350M-multi. Main model: **Qwen2.5-Coder-1.5B-Instruct**. Results and tables: [REPORT.md](REPORT.md).
 
-## Research papers (literature review)
+## Headline results
 
-Three papers are in the repo; they inform the **proposal and later checkpoints**, but are **not yet wired into the running code**:
+| | CodeGen-350M | Qwen zero-shot | Qwen + RAG | Qwen + agent |
+|---|---|---|---|---|
+| MBPP pass@1 (500 tasks) | 3.8% | 52.8% | no gain (ablation) | 56.4% (3 tries, test feedback) |
+| CoDocBench ROUGE-L (100) | 0.160 | 0.196 | 0.227 | 0.224 |
 
-| Paper | Relevance | Used in code today? |
-|-------|-----------|---------------------|
-| **SERA** — Soft-Verified Efficient Repository Agents | Agentic self-correction, repository specialization, synthetic trajectories | Partially — we implement generate→test→retry; not SERA’s SVG training pipeline |
-| **Scaling Laws for Code** — Every Programming Language Matters | Multi-language / PL1→PL2 translation stretch | No — deferred to optional CP2+ stretch |
-| **Bridging the Gap… Text-to-NoSQL** | SQL/NoSQL generation track | No — removed from scope per mentor focus |
-
-Implementation follows the **capstone PDF** + **group proposal**: MBPP, CoDocBench, CodeGen-350M-multi, pass@1, ROUGE-L, agent loop. RAG (proposal Module 4) is CP3.
-
-## Model selection
-
-Default upstream model: **CodeGen-350M-multi** (`codegen-350m`).
-
-Fine-tuned checkpoints under `experiments/checkpoints/` appear in the Streamlit sidebar and `GET /models`.
-
-```bash
-curl http://127.0.0.1:8000/models
-python src/infer.py "Write factorial in Python" --model_name_or_path codegen-350m
-python src/infer.py "Write factorial" --model_name_or_path experiments/checkpoints/codegen-mbpp-full
-```
-
-## Quickstart
-
-```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-python data/scripts/download_and_preprocess.py
-```
-
-## Checkpoint 1 (subset training + baseline eval)
-
-Deliverable: working pipeline, subset fine-tune, eval harness, API/UI.
-
-```bash
-chmod +x scripts/train_cp1.sh
-bash scripts/train_cp1.sh
-```
-
-This runs:
-
-- Upstream baseline on MBPP test + CoDocBench test (50 doc samples)
-- Subset training (`128` MBPP / `200` CoDocBench examples, 1 epoch)
-- Post-train eval → `experiments/results/cp1_*.json`
-- Summary table via `experiments/summarize_results.py`
-
-## Checkpoint 2 (full training + comparison)
-
-Deliverable: full MBPP + CoDocBench fine-tune, pass@1 / ROUGE-L comparison, agent lift.
-
-```bash
-chmod +x scripts/train_cp2.sh scripts/run_cp2_eval.sh
-bash scripts/train_cp2.sh
-```
-
-Full training uses `--full` (entire train splits, 2 epochs, `load_best_model_at_end`).
-Eval writes `experiments/results/cp2_*.json` including **baseline vs agent** on code.
-
-**Re-eval only** (checkpoints already trained):
-
-```bash
-# default: 43 MBPP + 100 CoDocBench test samples (override with env vars)
-bash scripts/run_cp2_eval.sh
-
-# full MBPP test (500 tasks — slow on CPU)
-MAX_CODE_SAMPLES=500 MAX_DOC_SAMPLES=500 bash scripts/run_cp2_eval.sh
-```
-
-### Results summary
-
-```bash
-python experiments/summarize_results.py experiments/results/cp2_*.json
-```
-
-| Metric | Task | Meaning |
-|--------|------|---------|
-| **pass@1** | Code | Execution accuracy on MBPP tests |
-| **ROUGE-L** | Docs | Primary doc quality (mentor requirement) |
-| **retry_success_rate** | Code + agent | Share fixed after initial failure |
-
-## Manual evaluation
-
-```bash
-# Code baseline
-python -m src.eval.run_eval --task code --model Salesforce/codegen-350M-multi --split test
-
-# Code with agentic self-correction
-python -m src.eval.run_eval --task code --model experiments/checkpoints/codegen-mbpp-full --split test --agent
-
-# Documentation (ROUGE-L primary)
-python -m src.eval.run_eval --task docs --model experiments/checkpoints/codegen-doc-full --split test
-```
-
-Use `--max_samples N` for quick smoke runs; omit for full split.
-
-## API + UI
-
-```bash
-uvicorn app.main:app --reload --port 8000
-streamlit run ui/app.py
-```
-
-| Tab | Pipeline |
-|-----|----------|
-| **Text → Code** | Generate → optional test execution → agent retries |
-| **Code → Documentation** | Generate → optional ROUGE-L/BLEU vs reference |
-| **Benchmark** | Batch eval on MBPP / CoDocBench splits (for reports) |
-
-Single-prompt generation and validation are one flow. **Benchmark** is for dataset-scale eval only.
-
-## Agent workflow
-
-```
-Prompt → Generate code → Run unit tests → Pass? → Done
-                              ↓ fail
-                         Retry with failure context (max N)
-```
-
-API: `POST /generate/code` with optional `test_list`, `use_agent`, `max_retries`.
+At an equal budget of 3 tries, plain sampling (64.0% on a 150-task subset) beat the feedback agent (56.7%):
+the agent's gain comes from extra attempts, not from reading the failure messages.
 
 ## Layout
 
 ```
-src/data/         mbpp.py, codoc.py
-src/agent/        code_agent.py
-src/eval/         code_eval, doc_eval, run_eval (--agent)
-src/train.py      MBPP fine-tuning (--full for CP2)
-src/train_doc.py  CoDocBench fine-tuning (--full for CP2)
-scripts/          train_cp1.sh, train_cp2.sh, run_cp2_eval.sh
-experiments/      checkpoints/, results/, summarize_results.py
-app/              FastAPI
-ui/               Streamlit
+src/rag/corpus.py       train-only corpora (MBPP train, CoDocBench train) + CoDocBench test loader
+src/rag/retriever.py    dense retriever: bge-small embeddings, cosine top-k with numpy
+src/models/loader.py    ChatModel.chat(messages) for Qwen; GPU bf16 if available, else CPU fp32
+src/prompts.py          prompt builders (zero-shot, RAG as chat turns, RAG as reference block, docs)
+src/agent/loop.py       code agent loop      src/agent/docs_agent.py   docs agent loop
+src/eval/code_eval.py   sandboxed test runner, pass@k, Wilson / bootstrap CIs
+scripts/                experiment drivers (see below)
+tests/                  unit tests (no model needed)
 ```
 
-## Tests
+## How to run
 
 ```bash
-python -m pytest tests/ -q
+pip install -r requirements.txt            # plus a CUDA build of torch for the GPU
+python -m scripts.build_index              # builds indexes/ (MBPP 374 entries, CoDocBench 2300)
+python -m scripts.run_all --chain G        # every experiment, resumable; needs ../old_zip_pipeline for CodeGen
+python -m scripts.make_report              # writes REPORT.md
+python -m pytest tests -q
 ```
 
-## Hardware notes
+Demo UI (Gradio, runs locally, needs `indexes/` built first):
 
-- **Apple Silicon:** training uses MPS when available (`src/train.py` device detection).
-- **GPU:** add `--fp16` to training commands for faster CP2 runs.
-- Generation defaults to **temperature=0.0** (deterministic) for reproducible CLI/UI parity.
+```bash
+python -m ui.app          # open http://127.0.0.1:7860
+```
+
+Two tabs: **Text → Code** (zero-shot / RAG / agent with your own `assert` lines) and **Code → Docs**
+(zero-shot / RAG / RAG + agent). Each shows every attempt, the test result and the retrieved examples.
+
+Individual phases: `run_qwen_code` (baseline / RAG), `rag_ablation` (validation split),
+`run_agent`, `run_sampling` (matched-budget baseline), `run_docs`. Each saves partial results
+after every sample, so an interrupted run resumes.
+
+## Retrieval (the "R" in RAG)
+
+Every corpus entry is `{query, payload}`. We embed `query` once with `bge-small-en-v1.5` and keep a
+normalised matrix. A search embeds the new task, takes dot products against the matrix (= cosine
+similarity) and returns the top-k payloads. For a few thousand entries this is exact and instant, so no
+vector database is needed. Only **train** splits are indexed, so test answers cannot leak.
+
+## The agent loop (RAG → agent)
+
+RAG is one pass: `prompt → model → answer`. An agent is a loop where the answer is **acted on** and the
+result is fed back:
+
+```
+messages = [system, task]
+for attempt in 1..max_attempts:
+    answer = model(messages)               # think
+    result = run_tests(answer)             # act: call a tool (sandboxed test runner)
+    if result.passed: stop                 # goal reached
+    messages += [answer, feedback(result)] # observe: the model sees its own mistake
+```
+
+The message list is the agent's memory: each retry sees every earlier attempt and why it failed
+(`src/agent/loop.py`, ~60 lines, no framework). Design details:
+
+* Attempt 1 equals the zero-shot answer (greedy decoding is deterministic), so only failures are retried.
+* For docs there are no unit tests for prose, so the "tool" is a static check (`docs_agent.check_docstring`):
+  non-empty and mentions every parameter; failures are fed back the same way.
+* Agent scores use the benchmark's visible test asserts as feedback, so compare them with
+  matched-budget sampling (pass@3), **not** with single-attempt pass@1.
+
+## Notes
+
+* RAG variants were tuned on the MBPP validation split; the test split is used only for final numbers.
+* The CodeGen-350M baselines come from the earlier zip pipeline (`old_zip_pipeline`, kept separate).
+* Small samples (40-task ablation, 150-task sampling subset, 100 docs samples) have wide confidence intervals.
